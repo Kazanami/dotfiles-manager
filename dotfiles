@@ -1,5 +1,52 @@
 #!/usr/bin/env bash
+app_full="Dotfiles Manager"
+
+majour="0"
+minor="0"
+fix="0"
+branch="alpha"
+
+version(){
+  v_number="${majour}.${minor}.${fix} (${branch})"
+  echo "${app_full} v${v_number}"
+}
 
 use(){
-  
+  :
 }
+
+
+_update(){
+  :
+}
+
+_bash_module(){
+  :
+}
+
+_edit_module(){
+  :
+}
+
+_main(){
+  PRAM=()
+  echo "option addded: $#"
+  echo "option view: $@"
+  echo "Optind: $-"
+
+  for opt in $@
+  do
+    case $opt in 
+      --test) echo "test mode";shift;;
+      --release) echo "release mode";shift;;
+      -*|--*) echo "Ignore Option $opt";;
+      *) 
+        if [[ -n "$1" ]] && [[ ! "$1" =~ ^-+ ]];then
+          PRAM+=("$1");shift
+        fi;;
+    esac
+  done
+  echo "get main command: $PRAM"
+}
+
+_main $@
