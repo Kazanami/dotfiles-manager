@@ -44,6 +44,9 @@ _main(){
     case $opt in
       --test) echo "test mode";shift;;
       --release) echo "release mode";shift;;
+      -h|--help)
+        __use;
+        exit 0;;
       -V|--version)
           __version;
           exit 0;;
@@ -54,9 +57,9 @@ _main(){
           DEBUG_MODE=true;
           __debug "Debug mode is enable";
           shift;;
-      -*|--*)
-        echo "Ignore Option $opt";
-        shift;;
+#      -*|--*)
+#        echo "Ignore Option $opt";
+#        shift;;
       *)
         if [[ -n "$opt" ]] && [[ ! "$opt" =~ ^-+ ]];then
           MODE+=("$opt");shift
