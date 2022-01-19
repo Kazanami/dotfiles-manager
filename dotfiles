@@ -6,12 +6,12 @@ minor="0"
 fix="0"
 branch="alpha"
 
-version(){
+__version(){
   v_number="${majour}.${minor}.${fix} (${branch})"
   echo "${app_full} v${v_number}"
 }
 
-use(){
+__use(){
   :
 }
 
@@ -28,25 +28,43 @@ _edit_module(){
   :
 }
 
+__debug(){
+  :
+}
+
 _main(){
-  PRAM=()
-  echo "option addded: $#"
-  echo "option view: $@"
-  echo "Optind: $-"
+  MODE=()
+
+  #echo "option addded: $#"
+  #echo "option view: $@"
+  #echo "Optind: $-"
 
   for opt in $@
   do
-    case $opt in 
+    case $opt in
       --test) echo "test mode";shift;;
       --release) echo "release mode";shift;;
-      -*|--*) echo "Ignore Option $opt";;
-      *) 
-        if [[ -n "$1" ]] && [[ ! "$1" =~ ^-+ ]];then
-          PRAM+=("$1");shift
+      -V|--version)
+          __version;
+          exit 0;;
+      -v|--verbose)
+        VERVOSE_MODE="true";
+        shift;;
+      --debug)
+          DEBUG_MODE=true;
+          __debug "Debug mode is enable";
+          shift;;
+      -*|--*)
+        echo "Ignore Option $opt";
+        shift;;
+      *)
+        if [[ -n "$opt" ]] && [[ ! "$opt" =~ ^-+ ]];then
+          MODE+=("$opt");shift
         fi;;
     esac
   done
-  echo "get main command: $PRAM"
+  echo "get main command: $MODE"
+  echo "Opt: $opt"
 }
 
 _main $@
